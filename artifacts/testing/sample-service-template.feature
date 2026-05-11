@@ -31,7 +31,7 @@ Feature: CAMARA Template Artifact - Test scenarios for sample-service.yaml
     And the header "Authorization" is set to a valid access token
     And the header "x-correlator" complies with the schema at "#/components/schemas/XCorrelator"
     # Properties not explicitly overwritten in the Scenarios can take any values compliant with the schema, clause only for createResource (i.e. only for POST/PUT operations in general)
-    And the request body is set by default to a request body compliant with the schema at "/components/schemas/<createResource>"
+    And the request body is set by default to a request body compliant with the schema at "#/components/schemas/<createResource>"
     # Clause for getResource and deleteResource operations
     And the path parameter "<ResourceId>" is set by default to a existing value
 
@@ -45,13 +45,13 @@ Feature: CAMARA Template Artifact - Test scenarios for sample-service.yaml
     Given a valid testing device supported by the service, identified by the token or provided in the request body
     # Several clauses for request body property may apply depending on the operation
     And the request body property "$.{requestProperty}" is set to a valid {placeholder_suitable_text}
-    And the request body is compliant with the schema at "/components/schemas/<createResource>"
+    And the request body is compliant with the schema at "#/components/schemas/<createResource>"
     When the request "<createResource>" is sent
     Then the response status code is 201
     And the response header "Content-Type" is "application/json"
     And the response header "x-correlator" has the same value as the request header "x-correlator"
     # The response has to comply with the generic response schema which is part of the spec
-    And the response body complies with the OAS schema at "/components/schemas/<Resource>"
+    And the response body complies with the OAS schema at "#/components/schemas/<Resource>"
     # Additionally, in case any success response has to comply with some constraints beyond the schema compliance
     And the response property "<property>" matches the rule: <condition>
 
@@ -60,6 +60,7 @@ Feature: CAMARA Template Artifact - Test scenarios for sample-service.yaml
       | $.xxx                    | yyy                       |
 
   # listResources MUST be replaced by applicable operationId for the tested operation
+  # Resource MUST be replaced by the applicable resource for the tested operation
   # schema names MUST be replaced by applicable values for the tested operation
   @{feature_identifier}_{listResources}_01_generic_success_scenario
   Scenario: Common validations for any success scenario
@@ -69,8 +70,10 @@ Feature: CAMARA Template Artifact - Test scenarios for sample-service.yaml
     And the response header "Content-Type" is "application/json"
     And the response header "x-correlator" has same value as the request header "x-correlator"
     # The response has to comply with the generic response schema which is part of the spec
-    And the response body is an array whose items comply with the OAS schema at "/components/schemas/<Resource>"
+    And the response body is an array whose items comply with the OAS schema at "#/components/schemas/<Resource>"
 
+  # listResources MUST be replaced by applicable operationId for the tested operation
+  # Resources MUST be replaced by the applicable resource (in plural) for the tested operation
   @{feature_identifier}_{listResources}_02_empty_response
   Scenario: No existing {Resources}
     Given no {Resources} have been created by operation "{operationId}"
@@ -81,6 +84,7 @@ Feature: CAMARA Template Artifact - Test scenarios for sample-service.yaml
     And the response body is an empty array "[]"
 
   # getResource MUST be replaced by applicable operationId for the tested operation
+  # Resource MUST be replaced by the applicable resource for the tested operation
   # schema names MUST be replaced by applicable values for the tested operation
   @{feature_identifier}_{getResource}_01_generic_success_scenario
   Scenario: Common validations for any success scenario
@@ -91,9 +95,10 @@ Feature: CAMARA Template Artifact - Test scenarios for sample-service.yaml
     And the response header "Content-Type" is "application/json"
     And the response header "x-correlator" has same value as the request header "x-correlator"
     # The response has to comply with the generic response schema which is part of the spec
-    And the response body complies with the OAS schema at "/components/schemas/<Resource>"
+    And the response body complies with the OAS schema at "#/components/schemas/<Resource>"
 
   # deleteResource MUST be replaced by applicable operationId for the tested operation
+  # Resource MUST be replaced by the applicable resource for the tested operation
   @{feature_identifier}_{deleteResource}_01_generic_success_scenario
   Scenario: Common validations for any success scenario
     Given an existing "<Resource>" created by operation "{operationId}"
@@ -109,7 +114,7 @@ Feature: CAMARA Template Artifact - Test scenarios for sample-service.yaml
 
   @{feature_identifier}_{operationId}_400.01_schema_not_compliant
   Scenario: Invalid Argument. Generic Syntax Exception
-    Given the request body is included but is not compliant with the schema at "/components/schemas/<requestSchema>"
+    Given the request body is included but is not compliant with the schema at "#/components/schemas/<requestSchema>"
     When the request "{operationId}" is sent
     Then the response status code is 400
     And the response header "x-correlator" has same value as the request header "x-correlator"
