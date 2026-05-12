@@ -671,7 +671,7 @@ sequenceDiagram
     end
   end
 
-  opt Using PRIVATE_KEY_JWT sink credential type (credentials exchanged out of bound)
+  opt Using PRIVATE_KEY_JWT sink credential type (credentials exchanged out of band)
     note over appclient,cspclient: Onboarding: <br> API Consumer shares <Token Endpoint> and <Client ID><br>API Provider shares <JWKS URI>
     opt Subscription
       appclient ->> cspres: POST /subscriptions<br>Body: {<br>sink: <API Consumer 2>/sink,<br>sinkCredential:{ credentialType: PRIVATE_KEY_JWT },<br>...}
