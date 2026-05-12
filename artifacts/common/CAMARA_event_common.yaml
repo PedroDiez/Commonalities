@@ -344,21 +344,24 @@ components:
         - type: object
           properties:
             clientId:
-              description: The client ID used to authenticate when requesting an access token using PRIVATE_KEY_JWT. This information should only be included in the request.
+              description: The client ID used to authenticate when requesting an access token using PRIVATE_KEY_JWT.
               type: string
               maxLength: 128
+              writeOnly: true
             tokenUri:
-              description: The URI where to request an access token using PRIVATE_KEY_JWT. This information should only be included in the request.
+              description: The URI where to request an access token using PRIVATE_KEY_JWT.
               type: string
               format: uri
               maxLength: 2048
               pattern: ^https:\/\/.+$
+              writeOnly: true
             jwksUri:
-              description: The URI used to request the public key to verify that the JWT assertion was signed by PRIVATE_KEY_JWT. This information should only be included in the response.
+              description: The URI used to request the public key to verify that the JWT assertion was signed by PRIVATE_KEY_JWT.
               type: string
               format: uri
               maxLength: 2048
               pattern: ^https:\/\/.+$
+              readOnly: true
 
     # ─────────────────────────────────────────────────────────────────────────
     # Section 5: Subscription lifecycle data
