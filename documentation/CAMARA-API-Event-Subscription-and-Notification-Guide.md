@@ -636,7 +636,7 @@ The client ID uniquely identifies the application ([RFC 6749, Section 2.2](https
 
 The JWK Set ((JSON Web Key Set)) contains the cryptographic keys used for authentication ([RFC 7517](https://www.rfc-editor.org/rfc/rfc7517.html)) 
 
-This information could be shared out of band (manual exchange, contract data, via the Operate API, etc.) or as input using PrivateKeyJWTCredential credentials.
+This information could be shared out of band (manual exchange, contract data, via the Operate API, etc.) or as properties of `sinkCredential` object in subscription request/response.
 
 ## Appendix A: Notification authentication flows
 
