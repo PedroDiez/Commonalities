@@ -684,7 +684,7 @@ sequenceDiagram
   opt Using PRIVATE_KEY_JWT sink credential attributes (credentials exchanged in band)
     note over appclient,cspclient: Onboarding: <br> API Consumer shares nothing
     opt Subscription
-    appclient ->> cspres: POST /subscriptions<br>Body: {<br>sink: <API Consumer 2>/sink,<br>sinkCredential:{ credentialType: PRIVATE_KEY_JWT,<br> tokenUri:<API Consumer 2>/tokenUri,,<br> clientId:<API Provider clientId> },<br>...}
+    appclient ->> cspres: POST /subscriptions<br>Body: {<br>sink: <API Consumer 2>/sink,<br>sinkCredential:{ credentialType: PRIVATE_KEY_JWT,<br> tokenUri:<API Consumer 2>/tokenUri,<br> clientId:<API Provider clientId> },<br>...}
     cspres -->> appclient: 201 Created<br>Body {<br>sinkCredential:{ credentialType: PRIVATE_KEY_JWT,<br> jwksUri:<API Provider>/jwksUri}
   end
     opt Authentication
