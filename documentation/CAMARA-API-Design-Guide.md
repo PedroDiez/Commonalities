@@ -11,6 +11,7 @@ This document outlines guidelines for API design within the CAMARA project, appl
 - [2. Data](#2-data)
   - [2.1. Common Data Types](#21-common-data-types)
   - [2.2. Data Definitions](#22-data-definitions)
+  - [2.3. Strictness of Request Body Schemas](#23-strictness-of-request-body-schemas)
 - [3. Responses](#3-responses)
   - [3.1. Business-level Outcomes in Successful Responses](#31-business-level-outcomes-in-successful-responses)
   - [3.2. Error Responses](#32-error-responses)
@@ -219,6 +220,17 @@ When IpAddr is used in a payload, the property `objectType` MUST be present to i
     }
 }
 ```
+
+
+### 2.3. Strictness of Request Body Schemas
+
+CAMARA APIs reject JSON request bodies that contain properties not declared in the API specification. The following rules apply:
+
+- A server MUST reject a request body containing JSON properties not declared in the API specification, at any nesting level. The rejection MUST produce a `400 INVALID_ARGUMENT` response per [3.2. Error Responses](#32-error-responses). The rule is restated to API consumers via the mandatory `info.description` template defined in [Section 3.2.4](#324-request-body-strictness---mandatory-template-for-infodescription-in-camara-api).
+- Where a request body schema and all its referenced schemas are free of composition (no `allOf` / `oneOf` / `anyOf`), the specification SHOULD also declare `additionalProperties: false` on the schema so validators can enforce it.
+- Under OAS 3.0.3, `additionalProperties: false` does not propagate through `allOf` / `oneOf` / `anyOf`. For composed request body schemas — including any schema referencing composed types from `CAMARA_common.yaml` — the mandatory [Section 3.2.4](#324-request-body-strictness---mandatory-template-for-infodescription-in-camara-api) template is the binding rule.
+- The rule applies to CAMARA APIs targeting Commonalities r4.3 and later. APIs targeting earlier Commonalities versions are unaffected.
+- The rule applies to JSON request bodies only. Response-side tolerant-reader behaviour is unchanged (see [Section 7.4](#74-backward-and-forward-compatibility)).
 
 
 
@@ -568,6 +580,18 @@ As a specific rule, error `501 - NOT_IMPLEMENTED` can be only a possible error r
 ```
 
 
+#### 3.2.4. Request Body Strictness - Mandatory Template for `info.description` in CAMARA API
+
+The following template MUST be used as part of the API documentation in the `info.description` property of the CAMARA API specification to declare that the API rejects undeclared JSON properties in request bodies. See [Section 2.3](#23-strictness-of-request-body-schemas) for the underlying rule.
+
+```md
+# Request body strictness
+
+This API rejects requests with JSON request bodies that contain properties not declared in this specification, at any nesting level. Unknown properties result in a `400 INVALID_ARGUMENT` response.
+
+```
+
+
 
 ## 4. Pagination, Sorting and Filtering
 
@@ -834,6 +858,7 @@ info:
   # description explaining the API, part of the API documentation
   # including mandatory text for "Authorization and authentication"
   # including mandatory text for "Additional CAMARA error responses"
+  # including mandatory text for "Request body strictness"
 
 
   description: |
@@ -863,7 +888,7 @@ It is NOT RECOMMENDED to link images outside of the Github API repository, since
 ![API Diagram](https://raw.githubusercontent.com/camaraproject/{apiRepository}/main/documentation/API_documentation/resources/diagram.png)
 ```
 
-Some sections are REQUIRED, as defined in [Section 3.2.3](#323-error-responses---mandatory-template-for-infodescription-in-camara-api), [Section 6.4](#64-mandatory-template-for-infodescription-in-camara-api)
+Some sections are REQUIRED, as defined in [Section 3.2.3](#323-error-responses---mandatory-template-for-infodescription-in-camara-api), [Section 3.2.4](#324-request-body-strictness---mandatory-template-for-infodescription-in-camara-api), [Section 6.4](#64-mandatory-template-for-infodescription-in-camara-api)
  or [Appendix A](#appendix-a-normative-infodescription-template-for-when-user-identification-can-be-from-either-an-access-token-or-explicit-identifier).
 
 #### 5.3.3. Version
@@ -1204,6 +1229,7 @@ The following points can serve as a checklist to design the security mechanism o
   Validate the request parameters as the first step before they reach the application logic.
 Implement strong validation checks and immediately reject the request if validation fails.
 In the API response, provide relevant error message.
+This includes rejecting unknown JSON properties in request bodies at any nesting level (see [Section 2.3](#23-strictness-of-request-body-schemas) and [Section 3.2.4](#324-request-body-strictness---mandatory-template-for-infodescription-in-camara-api)).
 
 4. **Sensitive information must not be exposed in the URLs**
 
@@ -1481,10 +1507,14 @@ To ensure this compatibility, the following guidelines MUST be applied.
 - Never change an endpoint name; instead, add a new one and mark the original one for deprecation in a MINOR change and remove it in a later MAJOR change (see semver FAQ entry: https://semver.org/#how-should-i-handle-deprecating-functionality)
 - If possible, do the same for attributes
 - New fields should always be added as optional.
-- Postel's Law: “<em>Be conservative in what you do, be liberal in what you accept from others</em>”. When you have input fields that need to be removed, mark them as unused, so they can be ignored.
+- Postel's Law: “<em>Be conservative in what you do, be liberal in what you accept from others</em>”. Apply at the value level (e.g. accepting recoverable value formats) and to field deprecation — when you have input fields that need to be removed, mark them as unused so they can be ignored. This principle does not apply to acceptance of undeclared JSON properties in request bodies, which is governed by [Section 2.3](#23-strictness-of-request-body-schemas) and [Section 3.2.4](#324-request-body-strictness---mandatory-template-for-infodescription-in-camara-api).
 - Do not change the field’s semantics.
 - Do not change the field’s order.
-- Do not change the validation rules of the request fields to more restrictive ones.
+- Do not change the validation rules of the request fields to more restrictive ones. Exception: adopting `additionalProperties: false` on a request body schema, or adding the mandatory [Section 3.2.4](#324-request-body-strictness---mandatory-template-for-infodescription-in-camara-api) template to an existing API, is not considered a breaking change — clients sending undeclared properties were never compliant with the specification. RECOMMEND a minor version bump:
+  - Non-stable APIs (version < v1.0): minor bump (e.g. v0.x → v0.x+1).
+  - Stable APIs (version ≥ v1.0): minor bump (e.g. v1.x → v1.x+1). The URL major version is unchanged.
+
+  Adding a required request body parameter, or removing an existing one, remains a major-version event independent of this rule.
 - If you use collections that can be returned with no content, then answer with an empty collection and not null.
 - Layout pagination support from the start.
 
