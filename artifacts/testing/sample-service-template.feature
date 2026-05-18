@@ -152,6 +152,7 @@ Feature: CAMARA Template Artifact - Test scenarios for sample-service.yaml
     And the response property "$.message" contains a user friendly text
 
 # applicable for operations with request body
+# applicable to properties in the request body which are of type object, and have required properties or minProperties in their value
 @{feature_identifier}_{operationId}_400.04_empty_property
 Scenario Outline: Error response for empty property in request body
     Given the request body property "<required_property>" is set to {}
@@ -290,7 +291,6 @@ Scenario Outline: Error response for missing required property in request body
   Scenario: Conflict due to "<Resource>" being modified
     Given a "<Resource>" is being modified by another request and the service does not allow concurrent modifications for the same resource
     # Additional clauses may exist according to API nature
-    And the request body property "$.<requestProperty>" is set to a value already used in another successful "<Resource>" request
     When the request "{operationId}" is sent
     Then the response status code is 409
     And the response header "x-correlator" has same value as the request header "x-correlator"
@@ -304,7 +304,6 @@ Scenario Outline: Error response for missing required property in request body
   Scenario: Conflict due to "<Resource>" (target or referenced) is in incompatible state for the requested operation
     Given a "<Resource>" is not in an available state for being managed
     # Additional clauses may exist according to API nature
-    And the request body property "$.<requestProperty>" is set to a value already used in another successful "<Resource>" request
     When the request "{operationId}" is sent
     Then the response status code is 409
     And the response header "x-correlator" has same value as the request header "x-correlator"
