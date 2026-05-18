@@ -302,7 +302,7 @@ Scenario Outline: Error response for missing required property in request body
   # Resource MUST be replaced by the applicable resource for the tested operation
   @{feature_identifier}_{operationId}_409.03_incompatible_state
   Scenario: Conflict due to "<Resource>" (target or referenced) is in incompatible state for the requested operation
-    Given a "<Resource>" is not in an available state for being managed
+    Given the "<Resource>" is in an invalid state for management
     # Additional clauses may exist according to API nature
     When the request "{operationId}" is sent
     Then the response status code is 409
