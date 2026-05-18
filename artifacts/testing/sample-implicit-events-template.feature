@@ -25,7 +25,7 @@ Feature: CAMARA Template Artifact - Test scenarios for sample-implicit-events.ya
 
 ############################ Happy Path Scenarios #############################################
 
-  # Repalce ... in the lastest sentence by any type of applicable validation for the property
+  # Replace ... in the lastest sentence by any type of applicable validation for the property
   @{feature_identifier}_{operationId}_xx_event_notification
   Scenario: Event is received if the sink was provided and "<Resource>" lifecycle faces an update
     Given an existing "<Resource>" created by operation "{operationId}" with provided values for "sink" and "sinkCredential", with property "$.sinkCredential.credentialType" set to "ACCESSTOKEN"

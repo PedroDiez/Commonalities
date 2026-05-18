@@ -34,7 +34,7 @@ Feature: Camara Template Subscriptions API - Operations on subscriptions
 
   @<xxx>_subscriptions_01_Create_<xxx>_subscription_sync
   Scenario: Create <xxx> subscription (sync creation)
-   # Some implementations may only support asynchronous subscription creation
+  # Some implementations may only support asynchronous subscription creation
     Given that subscriptions are created synchronously
     And a valid subscription request body
     When the request "create<xxx>Subscription" is sent
@@ -45,7 +45,7 @@ Feature: Camara Template Subscriptions API - Operations on subscriptions
 
   @<xxx>_subscriptions_02_Create_<xxx>_subscription_async
   Scenario:  Create <xxx> subscription (async creation)
-   # Some implementations may only support synchronous subscription creation
+  # Some implementations may only support synchronous subscription creation
     Given that subscriptions are created asynchronously
     And a valid subscription request body
     When the request "create<xxx>Subscription" is sent
@@ -143,6 +143,81 @@ Feature: Camara Template Subscriptions API - Operations on subscriptions
     Then the response code is 201 or 202
     And an event notification of the subscribed type is received on callback-url
     And notification body complies with the OAS schema at "#/components/schemas/CloudEvent"
+
+######################### Additional Happy Path Scenarios ##############################
+
+  @<xxx>_subscriptions_12_Create_<xxx>_subscription_sync_with_accesstoken_sink_credential
+  Scenario: Create <xxx> subscription (sync creation)
+  # Some implementations may only support asynchronous subscription creation
+  # Some implementations may decide to not return the sinkCredential in the response (data minimization principle)
+    Given that subscriptions are created synchronously
+    And a valid subscription request body
+    And the request property "$.sinkCredential.credentialType" is set to "ACCESSTOKEN"
+    And the request property "$.sinkCredential.accessTokenType" is set to "bearer"
+    And the request property "$.sinkCredential.accessToken" is set to a valid access token
+    And the request property "$.sinkCredential.accessTokenExpiresUtc" is set to a valid expiry date in the future
+    When the request "create<xxx>Subscription" is sent
+    Then the response code is 201
+    And the response header "Content-Type" is "application/json"
+    And the response header "x-correlator" has the same value as the request header "x-correlator"
+    And the response body complies with the OAS schema at "#/components/schemas/Subscription"
+    And the response body property "$.sinkCredential.credentialType", if present, is set to value "ACCESSTOKEN"
+    And the response body property "$.sinkCredential.accessTokenExpiresUtc", if present, is set to the same value of the request property "$.sinkCredential.accessTokenExpiresUtc"
+
+  @<xxx>_subscriptions_13_Create_<xxx>_subscription_sync_with_private_jwt_key_sink_credential_out_of_band_provisioning
+  Scenario: Create <xxx> subscription (sync creation)
+  # Some implementations may only support asynchronous subscription creation
+  # Some implementations may only support out_of_band provisioning
+    Given that subscriptions are created synchronously
+    And a valid subscription request body
+    And the request property "$.sinkCredential.credentialType" is set to "PRIVATE_JWT_KEY"
+    When the request "create<xxx>Subscription" is sent
+    Then the response code is 201
+    And the response header "Content-Type" is "application/json"
+    And the response header "x-correlator" has the same value as the request header "x-correlator"
+    And the response body complies with the OAS schema at "#/components/schemas/Subscription"
+
+  @<xxx>_subscriptions_14_Create_<xxx>_subscription_sync_with_private_jwt_key_sink_credential_in_band_provisioning
+  Scenario: Create <xxx> subscription (sync creation)
+  # Some implementations may only support asynchronous subscription creation
+  # Some implementations may additionally support in_band provisioning
+    Given that subscriptions are created synchronously
+    And a valid subscription request body
+    And the request property "$.sinkCredential.credentialType" is set to "PRIVATE_JWT_KEY"
+    And the request property "$.sinkCredential.clientId" is set to a valid value
+    And the request property "$.sinkCredential.tokenUri" is set to a valid value
+    When the request "create<xxx>Subscription" is sent
+    Then the response code is 201
+    And the response header "Content-Type" is "application/json"
+    And the response header "x-correlator" has the same value as the request header "x-correlator"
+    And the response body complies with the OAS schema at "#/components/schemas/Subscription"
+    And the response body property "$.sinkCredential.credentialType" is set to value "PRIVATE_JWT_KEY"
+    And the response body property "$.sinkCredential.jwksUri" is set to a valid value
+
+  @<xxx>_subscriptions_15_Operation_to_retrieve_subscription_based_on_an_existing_subscription-id_access_token_sink_credential_returned
+  # Some implementations may decide to not return the sinkCredential in the response (data minimization principle)
+  Scenario: Get a subscription based on existing subscription-id.
+    Given the path parameter "subscriptionId" is set to the identifier of an existing <xxx> subscription
+    When the request "retrieve<xxx>Subscription" is sent
+    Then the response code is 200
+    And the response header "Content-Type" is "application/json"
+    And the response header "x-correlator" has the same value as the request header "x-correlator"
+    And the response body complies with the OAS schema at "#/components/schemas/Subscription"
+    And the response body property "$.sinkCredential.credentialType", if present, is set to value "ACCESSTOKEN"
+    And the response body property "$.sinkCredential.accessTokenExpiresUtc", if present, is set to the same value of the request property "$.sinkCredential.accessTokenExpiresUtc"
+
+  @<xxx>_subscriptions_16_Operation_to_retrieve_subscription_based_on_an_existing_subscription-id_private_jwt_key_sink_credential_returned
+  # Some implementations may decide to not return the sinkCredential in the response (data minimization principle)
+  # Mainly applicable for in-band provisioning of PRIVATE_JWT_KEY mode for a given subscription
+  Scenario: Get a subscription based on existing subscription-id.
+    Given the path parameter "subscriptionId" is set to the identifier of an existing <xxx> subscription
+    When the request "retrieve<xxx>Subscription" is sent
+    Then the response code is 200
+    And the response header "Content-Type" is "application/json"
+    And the response header "x-correlator" has the same value as the request header "x-correlator"
+    And the response body complies with the OAS schema at "#/components/schemas/Subscription"
+    And the response body property "$.sinkCredential.credentialType" is set to value "PRIVATE_JWT_KEY"
+    And the response body property "$.sinkCredential.jwksUri" is set to a valid value
 
 ########################### Error response scenarios ############################################
 ########################### Subscription creation scenarios #####################################
@@ -456,7 +531,7 @@ Feature: Camara Template Subscriptions API - Operations on subscriptions
     And the response body property "$.pagination.totalPages", if present, is 3
     And the response body property "$.pagination.totalCount", if present, is greater than 40 and less than 60
 
- @<xxx>_subscriptions_74_pagination_invalid_page_parameter
+  @<xxx>_subscriptions_74_pagination_invalid_page_parameter
   Scenario: Subscription list pagination with invalid value for page parameter
     Given an API client with more than 20 <xxx> subscriptions created
     When the request "retrieve<xxx>SubscriptionList" is sent with query parameter "page" set to any value less than 1 and "perPage" set to 20
