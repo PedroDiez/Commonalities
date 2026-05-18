@@ -25,10 +25,11 @@ Feature: CAMARA Template Artifact - Test scenarios for sample-implicit-events.ya
 
 ############################ Happy Path Scenarios #############################################
 
+  # Repalce ... in the lastest sentence by any type of applicable validation for the property
   @{feature_identifier}_{operationId}_xx_event_notification
   Scenario: Event is received if the sink was provided and "<Resource>" lifecycle faces an update
-    Given an existing "<Resource>" created by operation "{operationId}" with provided values for "sink" and "sinkCredential"
-    And the path parameter "sessionId" is set to the value for that QoS session
+    Given an existing "<Resource>" created by operation "{operationId}" with provided values for "sink" and "sinkCredential", with property "$.sinkCredential.credentialType" set to "ACCESSTOKEN"
+    And the path parameter "<ResourceId>" is set to the value for that "<Resource>"
     When the request "{operationId}" is sent
     Then the response status code is 2<xx>
     And an event is received at the address of the "$.sink" provided for "{operationId}"
@@ -36,7 +37,7 @@ Feature: CAMARA Template Artifact - Test scenarios for sample-implicit-events.ya
     And the event header "Content-Type" is set to "application/cloudevents+json"
     And the event body complies with the OAS schema at "#/components/schemas/ApiNotificationEvent"
     # Additionally any event body has to comply with some constraints beyond the schema compliance
-    And the event body property "$.<property>" is "<Condition>"
+    And the event body property "$.<property>" is ...
 
 ############################ Error Scenarios #############################################
 

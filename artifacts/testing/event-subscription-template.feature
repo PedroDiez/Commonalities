@@ -440,7 +440,7 @@ Feature: Camara Template Subscriptions API - Operations on subscriptions
 
   @<xxx>_subscriptions_73_pagination_last_page
   Scenario: Subscription list pagination fetching the last page of the list
-    Given an API client with more than 40 <xxx> subscriptions created
+    Given an API client with more than 40 and less than 60 <xxx> subscriptions created
     When the request "retrieve<xxx>SubscriptionList" is sent with query parameters "page" set to 3 and "perPage" set to 20
     Then the response code is 200
     And the response header "Content-Type" is "application/json"
@@ -453,8 +453,8 @@ Feature: Camara Template Subscriptions API - Operations on subscriptions
     And the response body property "$.pagination" complies with the OAS schema at "#/components/schemas/Pagination"
     And the response body property "$.pagination.page" is 3
     And the response body property "$.pagination.perPage" is 20
-    And the response body property "$.pagination.totalPages", if present, is greater than 2
-    And the response body property "$.pagination.totalCount", if present, is greater than 40
+    And the response body property "$.pagination.totalPages", if present, is 3
+    And the response body property "$.pagination.totalCount", if present, is greater than 40 and less than 60
 
  @<xxx>_subscriptions_74_pagination_invalid_page_parameter
   Scenario: Subscription list pagination with invalid value for page parameter
