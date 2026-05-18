@@ -89,7 +89,7 @@ Feature: CAMARA Template Artifact - Test scenarios for sample-service.yaml
   @{feature_identifier}_{getResource}_01_generic_success_scenario
   Scenario: Common validations for any success scenario
     Given an existing "<Resource>" created by operation "{operationId}"
-    And the path parameter "<ResourceId>" is set to the value for that "<Resource>"
+    And the path parameter "<ResourceId>" is set to the value of the identifier for that "<Resource>"
     When the request "<getResource>" is sent
     Then the response status code is 200
     And the response header "Content-Type" is "application/json"
