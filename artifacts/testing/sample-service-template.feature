@@ -267,7 +267,7 @@ Scenario Outline: Error response for missing required property in request body
   # This scenario applies to operations that create/manage a resource with a unique property (e.g. name) and the service does not allow multiple resources with the same value for that property, even if they have different identifiers. If the service allows multiple resources with the same value for that property, this scenario would not apply.
   @{feature_identifier}_{operationId}_409.01_duplicated_resource
   Scenario: Conflict due to existing "<Resource>"
-    Given a "<Resource>" already exists with the same unique property as the one in the request body
+    Given a "<Resource>" already exists with the same <unique property> as the one in the request body
     # Additional clauses may exist according to API nature
     And the request body property "$.<requestProperty>" is set to a value already used in another successful "<Resource>" request
     When the request "{operationId}" is sent
