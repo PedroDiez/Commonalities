@@ -112,6 +112,8 @@ Feature: CAMARA Template Artifact - Test scenarios for sample-service.yaml
 
   # Syntax Error scenarios
 
+  # applicable for operations with request body
+  # schema names MUST be replaced by applicable values for the tested operation
   @{feature_identifier}_{operationId}_400.01_schema_not_compliant
   Scenario: Invalid Argument. Generic Syntax Exception
     Given the request body is included but is not compliant with the schema at "#/components/schemas/<requestSchema>"
@@ -123,6 +125,7 @@ Feature: CAMARA Template Artifact - Test scenarios for sample-service.yaml
     And the response property "$.code" is "INVALID_ARGUMENT"
     And the response property "$.message" contains a user friendly text
 
+  # applicable for operations with request body
   @{feature_identifier}_{operationId}_400.02_no_request_body
   Scenario: Missing request body
     Given the request body is not included
@@ -134,6 +137,7 @@ Feature: CAMARA Template Artifact - Test scenarios for sample-service.yaml
     And the response property "$.code" is "INVALID_ARGUMENT"
     And the response property "$.message" contains a user friendly text
 
+  # applicable for operations with request body
   @{feature_identifier}_{operationId}_400.03_empty_request_body
   # 3-legged scenario only. It happens when request body has at least one required property
   # NOTE: Recommended value for "$.message" (NOT NORMATIVE) is "Missing mandatory parameter(s)"
@@ -147,6 +151,7 @@ Feature: CAMARA Template Artifact - Test scenarios for sample-service.yaml
     And the response property "$.code" is "INVALID_ARGUMENT"
     And the response property "$.message" contains a user friendly text
 
+# applicable for operations with request body
 @{feature_identifier}_{operationId}_400.04_empty_property
 Scenario Outline: Error response for empty property in request body
     Given the request body property "<required_property>" is set to {}
@@ -162,6 +167,7 @@ Scenario Outline: Error response for empty property in request body
       | required_property |
       | {value}           |
 
+# applicable for operations with request body
 @{feature_identifier}_{operationId}_400.05_missing_required_property
 Scenario Outline: Error response for missing required property in request body
     Given the request body property "<required_property>" is not included
@@ -265,9 +271,10 @@ Scenario Outline: Error response for missing required property in request body
   # Generic 409 Errors
 
   # This scenario applies to operations that create/manage a resource with a unique property (e.g. name) and the service does not allow multiple resources with the same value for that property, even if they have different identifiers. If the service allows multiple resources with the same value for that property, this scenario would not apply.
+  # unique property and Resource MUST be replaced by applicable values for the tested operation
   @{feature_identifier}_{operationId}_409.01_duplicated_resource
   Scenario: Conflict due to existing "<Resource>"
-    Given a "<Resource>" already exists with the same unique property as the one in the request body
+    Given a "<Resource>" already exists with the same "<unique property>" as the one in the request body
     # Additional clauses may exist according to API nature
     And the request body property "$.<requestProperty>" is set to a value already used in another successful "<Resource>" request
     When the request "{operationId}" is sent
@@ -278,6 +285,7 @@ Scenario Outline: Error response for missing required property in request body
     And the response property "$.code" is "ALREADY_EXISTS"
     And the response property "$.message" contains a user friendly text
 
+  # Resource MUST be replaced by the applicable resource for the tested operation
   @{feature_identifier}_{operationId}_409.02_request_aborted
   Scenario: Conflict due to "<Resource>" being modified
     Given a "<Resource>" is being modified by another request and the service does not allow concurrent modifications for the same resource
@@ -291,6 +299,7 @@ Scenario Outline: Error response for missing required property in request body
     And the response property "$.code" is "ABORTED"
     And the response property "$.message" contains a user friendly text
 
+  # Resource MUST be replaced by the applicable resource for the tested operation
   @{feature_identifier}_{operationId}_409.03_incompatible_state
   Scenario: Conflict due to "<Resource>" (target or referenced) is in incompatible state for the requested operation
     Given a "<Resource>" is not in an available state for being managed
