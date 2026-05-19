@@ -245,7 +245,7 @@ Scenario Outline: Error response for missing required property in request body
     And the response property "$.message" contains a user friendly text
 
   @{feature_identifier}_{operationId}_403.2_api_client_token_mismatch
-  Scenario: QoS session not created by the API client given in the access token
+  Scenario: Resource not created by the API client given in the access token
     # To test this, a token has to be obtained for a different client
     Given the header "Authorization" is set to a valid access token emitted to an API client which did not have rights to access/manage the "<Resource>"
     When the request "{operationId}" is sent
