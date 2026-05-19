@@ -43,6 +43,8 @@ This release contains documents and artifacts of Commonalities version 0.8.0:
 * Added pagination shared components and pagination example in sample-service-subscriptions API template by @rartych in https://github.com/camaraproject/Commonalities/pull/617
 * Testing artifacts for 400 Syntax Error including empty request body scenario by @PedroDiez in https://github.com/camaraproject/Commonalities/pull/618
 * Clarification on string `maxLength' value by @rartych in https://github.com/camaraproject/Commonalities/pull/620
+* Added rule for undeclared properties in request bodies by @hdamker in https://github.com/camaraproject/Commonalities/pull/634
+* Added mandatory info.description templates to common artifacts and samples by @hdamker in https://github.com/camaraproject/Commonalities/pull/635
 
 ### Changed
 * CAMARA_Common.yaml aligment with multiple device identifiers logic by @PedroDiez in https://github.com/camaraproject/Commonalities/pull/570
@@ -53,6 +55,8 @@ This release contains documents and artifacts of Commonalities version 0.8.0:
 * Message for Invalid Token Context Error by @PedroDiez in https://github.com/camaraproject/Commonalities/pull/607
 * Artifacts directory restructured for $ref consumption by @hdamker in https://github.com/camaraproject/Commonalities/pull/606
 * Changed response pagination guidelines by @rartych in https://github.com/camaraproject/Commonalities/pull/610 and in https://github.com/camaraproject/Commonalities/pull/617
+* Implicit-subscription template: inline resource-flavoured 400/422 responses by @hdamker in https://github.com/camaraproject/Commonalities/pull/629
+* Simplified usage of PrivateKeyJwtCredentials for event notification by @patrice-conil in https://github.com/camaraproject/Commonalities/pull/633
 
 ### Fixed
 * `x-camara-commonalities` format fixed to string by @PedroDiez in https://github.com/camaraproject/Commonalities/pull/537
