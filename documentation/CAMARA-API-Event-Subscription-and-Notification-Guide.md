@@ -636,6 +636,8 @@ The client ID uniquely identifies the application ([RFC 6749, Section 2.2](https
 
 The JWK Set ((JSON Web Key Set)) contains the cryptographic keys used for authentication ([RFC 7517](https://www.rfc-editor.org/rfc/rfc7517.html)) 
 
+This information could be shared out of band (manual exchange, contract data, via the Operate API, etc.) or as properties of `sinkCredential` object in subscription request/response.
+
 ## Appendix A: Notification authentication flows
 
 The following diagram describes the authentication flows for API Consumers with different authentication capabilities. Depending on those capabilities the sink credential type used will be `ACCESSTOKEN` or `PRIVATE_KEY_JWT`
@@ -669,7 +671,7 @@ sequenceDiagram
     end
   end
 
-  opt Using PRIVATE_KEY_JWT sink credential type
+  opt Using PRIVATE_KEY_JWT sink credential type (credentials exchanged out of band)
     note over appclient,cspclient: Onboarding: <br> API Consumer shares <Token Endpoint> and <Client ID><br>API Provider shares <JWKS URI>
     opt Subscription
       appclient ->> cspres: POST /subscriptions<br>Body: {<br>sink: <API Consumer 2>/sink,<br>sinkCredential:{ credentialType: PRIVATE_KEY_JWT },<br>...}
@@ -678,6 +680,13 @@ sequenceDiagram
       cspres -->> appclient: Invalid sink credential type or missing pre-shared information 
       end
     end
+  end
+  opt Using PRIVATE_KEY_JWT sink credential attributes (credentials exchanged in band)
+    note over appclient,cspclient: Onboarding: <br> API Consumer shares nothing
+    opt Subscription
+    appclient ->> cspres: POST /subscriptions<br>Body: {<br>sink: <API Consumer 2>/sink,<br>sinkCredential:{ credentialType: PRIVATE_KEY_JWT,<br> tokenUri:<API Consumer 2>/tokenUri,<br> clientId:<API Provider clientId> },<br>...}
+    cspres -->> appclient: 201 Created<br>Body {<br>sinkCredential:{ credentialType: PRIVATE_KEY_JWT,<br> jwksUri:<API Provider>/jwksUri}
+  end
     opt Authentication
       cspclient->>appauth: Get Access Token<br>from API Consumer <Token Endpoint><br>with <signed JWT credentials>
       appauth->>cspauth: Fetch <Public Key Set> from <JWKS URI>
