@@ -56,6 +56,7 @@ This release contains documents and artifacts of Commonalities version 0.8.0:
 * Artifacts directory restructured for $ref consumption by @hdamker in https://github.com/camaraproject/Commonalities/pull/606
 * Changed response pagination guidelines by @rartych in https://github.com/camaraproject/Commonalities/pull/610 and in https://github.com/camaraproject/Commonalities/pull/617
 * Implicit-subscription template: inline resource-flavoured 400/422 responses by @hdamker in https://github.com/camaraproject/Commonalities/pull/629
+* Testing artifacts reviewed and updated for Spring26 by @PedroDiez in https://github.com/camaraproject/Commonalities/pull/626
 * Simplified usage of PrivateKeyJwtCredentials for event notification by @patrice-conil in https://github.com/camaraproject/Commonalities/pull/633
 
 ### Fixed
