@@ -1,6 +1,6 @@
 Feature: CAMARA Template Artifact - Test scenarios for sample-service.yaml
 
-    CAMARA Commonalities: 0.8.0-rc.2
+    CAMARA Commonalities: 0.8.0
     Common test scenarios for operations defined in sample-service.yaml.
 
     NOTES:
