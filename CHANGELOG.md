@@ -30,7 +30,7 @@ This release contains documents and artifacts of Commonalities version 0.8.0:
 
 ### Added
 * New 409 error code called INCOMPATIBLE_STATE added by @tlohmar in https://github.com/camaraproject/Commonalities/pull/550
-* Added device identifier constraints for test desfinitions by @Kevsy in https://github.com/camaraproject/Commonalities/pull/576
+* Added device identifier constraints for test definitions by @Kevsy in https://github.com/camaraproject/Commonalities/pull/576
 * Array description guideline by @PedroDiez in https://github.com/camaraproject/Commonalities/pull/559
 * Clarifications for asynchronous responses by @PedroDiez in https://github.com/camaraproject/Commonalities/pull/575
 * Guidelines and linting rules for OWASP API Security Top 10 by @rartych in https://github.com/camaraproject/Commonalities/pull/582
@@ -42,12 +42,12 @@ This release contains documents and artifacts of Commonalities version 0.8.0:
 * Added implicit-subscription API template by @hdamker in https://github.com/camaraproject/Commonalities/pull/612
 * Added pagination shared components and pagination example in sample-service-subscriptions API template by @rartych in https://github.com/camaraproject/Commonalities/pull/617
 * Testing artifacts for 400 Syntax Error including empty request body scenario by @PedroDiez in https://github.com/camaraproject/Commonalities/pull/618
-* Clarification on string `maxLength' value by @rartych in https://github.com/camaraproject/Commonalities/pull/620
+* Clarification on string `maxLength` value by @rartych in https://github.com/camaraproject/Commonalities/pull/620
 * Added rule for undeclared properties in request bodies by @hdamker in https://github.com/camaraproject/Commonalities/pull/634
 * Added mandatory info.description templates to common artifacts and samples by @hdamker in https://github.com/camaraproject/Commonalities/pull/635
 
 ### Changed
-* CAMARA_Common.yaml aligment with multiple device identifiers logic by @PedroDiez in https://github.com/camaraproject/Commonalities/pull/570
+* CAMARA_Common.yaml alignment with multiple device identifiers logic by @PedroDiez in https://github.com/camaraproject/Commonalities/pull/570
 * Linting rules update 01 2026 by @rartych in https://github.com/camaraproject/Commonalities/pull/564
 * Status 409 standardized error codes modified by @tlohmar in https://github.com/camaraproject/Commonalities/pull/569
 * Cloudevents decoupled from EventTypeNotification scheme in Event Subscription Template by @rartych in https://github.com/camaraproject/Commonalities/pull/604
