@@ -23,6 +23,10 @@
 # Source:
 #   IdentityAndConsentManagement/documentation/CAMARA-API-access-and-user-consent.md
 #   section "Mandatory template for `info.description` in CAMARA API specs"
+
+info:
+  x-camara-commonalities: 0.8.0
+
 authorization-and-authentication:
   content: |
     <!-- CAMARA:MANDATORY:authorization-and-authentication:BEGIN -->
