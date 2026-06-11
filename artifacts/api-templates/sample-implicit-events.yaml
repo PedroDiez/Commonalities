@@ -462,12 +462,7 @@ components:
         device:
           $ref: "../common/CAMARA_common.yaml#/components/schemas/Device"
         sink:
-          type: string
-          format: uri
-          maxLength: 2048
-          description: |
-            The sink URL registered for notifications on this resource, if any.
-            `sinkCredential` is deliberately not echoed in responses.
+          $ref: "../common/CAMARA_event_common.yaml#/components/schemas/Sink"
         sinkCredential:
           $ref: "../common/CAMARA_event_common.yaml#/components/schemas/SinkCredential"
 
