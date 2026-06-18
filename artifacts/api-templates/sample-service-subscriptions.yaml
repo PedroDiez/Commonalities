@@ -291,7 +291,9 @@ components:
         protocol:
           $ref: "../common/CAMARA_event_common.yaml#/components/schemas/Protocol"
         sink:
-          $ref: "../common/CAMARA_event_common.yaml#/components/schemas/Sink"
+          description: The address to which events shall be delivered using the selected protocol.
+          allOf:
+            - $ref: "../common/CAMARA_event_common.yaml#/components/schemas/Sink"
         sinkCredential:
           $ref: "../common/CAMARA_event_common.yaml#/components/schemas/SinkCredential"
         types:
@@ -332,7 +334,9 @@ components:
         protocol:
           $ref: "../common/CAMARA_event_common.yaml#/components/schemas/Protocol"
         sink:
-          $ref: "../common/CAMARA_event_common.yaml#/components/schemas/Sink"
+          description: The address to which events shall be delivered using the selected protocol.
+          allOf:
+            - $ref: "../common/CAMARA_event_common.yaml#/components/schemas/Sink"
         sinkCredential:
           $ref: "../common/CAMARA_event_common.yaml#/components/schemas/SinkCredential"
         types:
