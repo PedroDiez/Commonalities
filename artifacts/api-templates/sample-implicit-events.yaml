@@ -442,15 +442,12 @@ components:
         device:
           $ref: "../common/CAMARA_common.yaml#/components/schemas/Device"
         sink:
-          type: string
-          format: uri
-          maxLength: 2048
-          pattern: ^https:\/\/.+$
           description: |
             The HTTPS URL where event notifications for this resource will be
             delivered. Omit this field (and `sinkCredential`) to create the
             resource without event notifications.
-          example: "https://endpoint.example.com/sink"
+          allOf:
+            - $ref: "../common/CAMARA_event_common.yaml#/components/schemas/Sink"
         sinkCredential:
           $ref: "../common/CAMARA_event_common.yaml#/components/schemas/SinkCredential"
 
@@ -470,12 +467,11 @@ components:
         device:
           $ref: "../common/CAMARA_common.yaml#/components/schemas/Device"
         sink:
-          type: string
-          format: uri
-          maxLength: 2048
           description: |
             The sink URL registered for notifications on this resource, if any.
             `sinkCredential` is deliberately not echoed in responses.
+          allOf:
+            - $ref: "../common/CAMARA_event_common.yaml#/components/schemas/Sink"
         sinkCredential:
           $ref: "../common/CAMARA_event_common.yaml#/components/schemas/SinkCredential"
 
