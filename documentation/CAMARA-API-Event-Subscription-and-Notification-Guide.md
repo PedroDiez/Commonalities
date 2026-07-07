@@ -171,7 +171,7 @@ The following table provides `/subscriptions` attributes
 | attribute name       | type               | attribute description                                                          | cardinality |
 |----------------------|--------------------|--------------------------------------------------------------------------------|-------------|
 | credentialType       | string             | Type of the credential - MUST be set to `ACCESSTOKEN` or `PRIVATE_KEY_JWT`     | mandatory   |
-| accessToken          | string           | Access Token granting access to send events related to the implicit subscription. Applicable for `ACCESSTOKEN` credentialType. Required in the request. Not returned in the response  | optional    |
+| accessToken          | string           | Access Token granting access to send events related to the explicit subscription. Applicable for `ACCESSTOKEN` credentialType. Required in the request. Not returned in the response  | optional    |
 | accessTokenExpireUtc | string date-time | An absolute UTC instant at which the access token shall be considered expired. Applicable for `ACCESSTOKEN` credentialType. Required in the request. Returned in the response   | optional    |
 | accessTokenType      | string           | Type of access token - MUST be set to `Bearer` for now. Applicable for `ACCESSTOKEN` credentialType. Required in the request. Not returned in the response                            | optional    |
 | clientId             | string           | The client ID used to authenticate when requesting an access token using `PRIVATE_KEY_JWT`. Applicable for `PRIVATE_KEY_JWT` credentialType. Optional in the request. Not returned in the response  | optional    |
