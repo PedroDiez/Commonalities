@@ -92,7 +92,7 @@ Illustration with bearer access token (Resource instance representation):
   "sinkCredential": {
     "credentialType": "ACCESSTOKEN",
     "accessToken" : "eyJ2ZXIiOiIxLjAiLCJ0eXAiOiJKV1QiL..",
-    "accessTokenExpireUtc" : "2024-12-06T14:37:56.147Z",
+    "accessTokenExpiresUtc" : "2024-12-06T14:37:56.147Z",
     "accessTokenType" : "bearer"
     }
 }
@@ -668,7 +668,7 @@ sequenceDiagram
    
   opt Using ACCESSTOKEN sink credential type
     opt Subscription
-      appbe ->> cspres: POST /subscriptions<br>Body: {<br>sink: <API Consumer 1>/sink,<br>sinkCredential:{ credentialType: ACCESSTOKEN,<br>accessToken:<Access Token>,<br>accessTokenExpireUtc:<access token expire time>,<br>accessTokenType: bearer },<br>...}
+      appbe ->> cspres: POST /subscriptions<br>Body: {<br>sink: <API Consumer 1>/sink,<br>sinkCredential:{ credentialType: ACCESSTOKEN,<br>accessToken:<Access Token>,<br>accessTokenExpiresUtc:<access token expire time>,<br>accessTokenType: bearer },<br>...}
       cspres -->> appbe: 201 Created
     end
     opt Notification
