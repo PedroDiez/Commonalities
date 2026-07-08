@@ -105,7 +105,8 @@ This part captures a detailed description of all the data structures used in the
 
 - If the data type is object, list of required properties.
 - If the data type is array, `maxItems` property MUST be specified.
-- If the data type is integer, format (`int32` or `int64`) and range (`minimum` and `maximum`properties) MUST be specified.
+- If the data type is integer, format (`int32` or `int64`) and range (`minimum` and `maximum` properties) MUST be specified.
+  - Numeric schema values (e.g. `minimum`, `maximum`, `default`, `enum` values, examples) MUST be within the 53-bit integer range (-9007199254740991 through 9007199254740991). As noted in the [OpenAPI Format Registry](https://spec.openapis.org/registry/format/int64), values outside this range cause interoperability problems with recipients that parse JSON numbers into double-precision (binary64) representation and may be silently altered. A property whose domain requires larger values MUST instead be modeled as a `string` with an appropriate `pattern`, as recommended by the registry.
 - List of properties within the object data, including:
    - Property name
    - Property description
