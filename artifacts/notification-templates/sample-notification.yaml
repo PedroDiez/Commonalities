@@ -33,17 +33,17 @@ security:
   - {}
 
 paths:
-  /your_webhook_notification_url:
+  /your-webhook-notification-url:
     post:
       tags:
         - CAMARA Cloud Event
       summary: Cloud Event notification endpoint to notify consumer that statement of fact had occurred
       description: |
         INFORMATIVE ENDPOINT: The value of this endpoint is freely declared by each client app by means of resource-based
-        subscription or instance-based subscription. `/your_webhook_notification_url` is
+        subscription or instance-based subscription. `/your-webhook-notification-url` is
         just a convention naming referring to an absolute URL, indeed the one indicated by API client
         in the triggering of the procedure (resource-based or instance-based). In this way, it represents an absolute
-        URL, i.e.: notifications won't be sent to `/event-notification/vX/your_webhook_notification_url`.
+        URL, i.e.: notifications won't be sent to `/event-notification/vX/your-webhook-notification-url`.
       operationId: sendEvent
       parameters:
         - $ref: "../common/CAMARA_common.yaml#/components/parameters/x-correlator"
