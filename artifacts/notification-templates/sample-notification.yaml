@@ -18,11 +18,11 @@ externalDocs:
   url: https://github.com/camaraproject/Commonalities
 
 servers:
-  - url: "{apiRoot}"
+  - url: "{sinkRoot}"
     variables:
-      apiRoot:
-        default: http://localhost:9091
-        description: API root, defined by the service provider, e.g. `api.example.com` or `api.example.com/somepath`
+      sinkRoot:
+        default: https://endpoint.example.com
+        description: Can be any notification server address sent by the client application
 
 tags:
   - name: CAMARA Cloud Event
