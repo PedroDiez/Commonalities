@@ -21,8 +21,8 @@ servers:
   - url: "{apiRoot}"
     variables:
       apiRoot:
-        default: https://localhost:8080
-        description: Can be any notification server address sent by the client application
+        default: http://localhost:9091
+        description: API root, defined by the service provider, e.g. `api.example.com` or `api.example.com/somepath`
 
 tags:
   - name: CAMARA Cloud Event
@@ -74,3 +74,6 @@ components:
       type: http
       scheme: bearer
       bearerFormat: "{$request.body#/sinkCredential.credentialType}"
+      description: |
+        Bearer token for notification delivery. Token format is determined
+        by `sinkCredential.credentialType` in the subscription request.
