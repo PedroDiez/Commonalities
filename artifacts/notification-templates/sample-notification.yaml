@@ -18,10 +18,10 @@ externalDocs:
   url: https://github.com/camaraproject/Commonalities
 
 servers:
-  - url: "{apiRoot}"
+  - url: "{sinkRoot}"
     variables:
-      apiRoot:
-        default: https://localhost:8080
+      sinkRoot:
+        default: https://endpoint.example.com
         description: Can be any notification server address sent by the client application
 
 tags:
@@ -74,3 +74,6 @@ components:
       type: http
       scheme: bearer
       bearerFormat: "{$request.body#/sinkCredential.credentialType}"
+      description: |
+        Bearer token for notification delivery. Token format is determined
+        by `sinkCredential.credentialType` in the subscription request.
