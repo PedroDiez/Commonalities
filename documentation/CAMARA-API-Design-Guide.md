@@ -395,7 +395,7 @@ The following scenarios MUST be rejected with appropriate HTTP error codes and M
 The following scenarios are candidates for HTTP `2xx` responses with business-level outcomes:
 
 * **Service available with degraded precision:** The API can provide a response with lower precision, accuracy, or completeness than the ideal case (e.g., location data with reduced accuracy).
-* **Service temporarily unavailable**: The request was processed successfully but the service cannot be provided at this moment but may be available later; the response includes valuable context for the API consumer (e.g., device temporarily not reachable, but retry advised).
+* **Temporary business condition after processing:** The request was processed successfully and its domain outcome can be determined, but the service cannot be provided for the current subject or context at this moment. The response includes valuable information for the API Consumer, and a later retry may produce a different outcome.
 * **Empty or out-of-range results:** Resource arrays are empty due to filtering, sorting, or pagination boundaries (e.g., requested page exceeds total pages).
 * **Partial data availability:** Only a subset of requested information can be provided due to constraints that may vary over time (e.g., some device properties unavailable, user privacy restrictions).
 
@@ -403,12 +403,20 @@ The following scenarios are candidates for HTTP `2xx` responses with business-le
 
 An outcome scenario qualifies for 2xx modeling if it meets ALL of the following conditions:
 
-* The service **can be delivered**, albeit potentially in a degraded or partial form at this moment.
+* The request is valid and has been processed to the point where a domain-level outcome can be determined, even if the requested service cannot be fully delivered for the current subject or context.
 * The scenario represents a **temporal or contextual condition** that may change over time, where a retry could yield a different (potentially complete) response.
 * The scenario **does not hide a permanent inability** to deliver the service — the API request context does not fundamentally preclude service delivery.
 * The scenario is **chargeable** and the API design supports differentiated charging models if required by business alignment. Such a decision for this differentiated charging is outside CAMARA scope and it is up to business aligments and other forums (e.g. GSMA), but CAMARA APIs design MUST be ready to provide a mean for that business aligment.
 * The scenario is **agreed within the API initiative** and documented in the API specification so consumers understand the behavior.
 * There is no **sensible information, privacy regulation or data minimization** risk on providing that information
+
+**Distinction between 2xx Business-Level Outcomes and `503 UNAVAILABLE`:**
+
+The fact that a condition is temporary or that the API Consumer may retry the request later MUST NOT, by itself, determine the HTTP status code.
+
+* A `2xx` response with a business-level outcome MUST be used when the request has been successfully validated and processed to the point where the API can determine the domain outcome, but a business or subject-specific condition prevents complete fulfilment. For example, a device status request may be processed successfully while the device is switched off or disconnected from the network. The response MUST expose the corresponding domain outcome.
+* `503 UNAVAILABLE` MUST be used when a temporary technical condition prevents the API from processing the request, or from processing it sufficiently to determine the domain outcome. In this case, the API MUST NOT represent the condition as a business-level outcome. Examples include service maintenance or a temporary failure of an internal dependency.
+* A recommendation to retry later MAY apply to both cases, but they are not equivalent: `2xx` indicates that a business outcome has been determined, whereas `503` indicates that the API could not determine that outcome.
 
 **Initial Scenarios:**
 
@@ -417,7 +425,7 @@ The following scenarios are identified as candidates for 2xx business-level outc
 | Scenario | Applicable Behavior |
 |----------|---------------------|
 | Business condition where service can be provided with lower precision | 2xx Business-level Outcomes in Successful Responses |
-| Business condition where service cannot be provided temporarily, indicating valuable information for API Consumer | 2xx Business-level Outcomes in Successful Responses |
+| Business condition where the request has been processed but the service cannot be provided temporarily for the current subject or context | 2xx Business-level Outcomes in Successful Responses |
 | Resource Array is empty | 2xx Business-level Outcomes in Successful Responses |
 | Pagination Scenario — requested page is out of range (then the returned array is empty) | 2xx Business-level Outcomes in Successful Responses |
 
