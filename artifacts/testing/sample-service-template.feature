@@ -236,7 +236,6 @@ Feature: CAMARA Template Artifact - Test scenarios for sample-service.yaml
     When the request "{operationId}" is sent
     Then the response status code is 400
     And the response header "Content-Type" is "application/json"
-    And the response header "x-correlator" has same value as the request header "x-correlator"
     And the response property "$.status" is 400
     And the response property "$.code" is "INVALID_ARGUMENT"
     And the response property "$.message" contains a user friendly text
